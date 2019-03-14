@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package com.kugmax.learn.rxgrpc;
+
+message HelloRequest {
+    string greeting = 1;
+}
+
+message HelloResponse {
+    string answer = 1;
+}
+
+service APIService {
+    rpc hello(HelloRequest) returns (HelloResponse) {};
+}
