@@ -1,0 +1,88 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.7")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.google.protobuf'
+
+group = 'com.kugmax.learn'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-couchbase'
+	implementation "io.grpc:grpc-netty-shaded:${grpcVersion}"
+	implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+	implementation "io.grpc:grpc-stub:${grpcVersion}"
+	implementation "io.grpc:grpc-services:${grpcVersion}"
+	implementation "io.netty:netty-tcnative-boringssl-static:${nettyTcNativeVersion}"
+	implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+	implementation "io.github.lognet:grpc-spring-boot-starter:${springBootStarterVersion}"
+
+	implementation "org.projectlombok:lombok:${lombokVersion}"
+
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}
+
+sourceSets {
+	main {
+		proto {
+			srcDir file("${projectDir}/src/main/proto")
+			include "**/*.proto"
+		}
+		java {
+			srcDirs "src/main/java"
+		}
+	}
+
+	test {
+		java {
+			srcDirs "src/test/java"
+		}
+
+	}
+}
+
+task cleanProtoGen {
+	delete "${projectDir}/src/main/java/generated"
+}
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:${protocVersion}"
+	}
+
+	plugins {
+		grpc {
+			artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+		}
+	}
+
+	generateProtoTasks.generatedFilesBaseDir = "${projectDir}/src/main/java/generated"
+
+	generateProtoTasks {
+
+		all().each { task ->
+			task.plugins {
+				grpc {}
+			}
+		}
+	}
+}
