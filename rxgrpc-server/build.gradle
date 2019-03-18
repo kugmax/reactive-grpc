@@ -33,6 +33,7 @@ dependencies {
 	implementation "io.netty:netty-tcnative-boringssl-static:${nettyTcNativeVersion}"
 	implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
 	implementation "io.github.lognet:grpc-spring-boot-starter:${springBootStarterVersion}"
+
 	implementation "com.salesforce.servicelibs:reactor-grpc-stub:${reactiveGrpcVersion}"
 
 	implementation "org.projectlombok:lombok:${lombokVersion}"
@@ -40,6 +41,13 @@ dependencies {
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+	testImplementation "com.salesforce.servicelibs:grpc-testing-contrib:0.8.1"
+	testImplementation "io.projectreactor:reactor-test"
+
+	testImplementation "io.grpc:grpc-testing:${grpcVersion}"
+	testImplementation "io.grpc:grpc-core:${grpcVersion}"
+	testImplementation "io.grpc:grpc-netty:${grpcVersion}"
+	testImplementation "io.grpc:grpc-context:${grpcVersion}"
 }
 
 sourceSets {
