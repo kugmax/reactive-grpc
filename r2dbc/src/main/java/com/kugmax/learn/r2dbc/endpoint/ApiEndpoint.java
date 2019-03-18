@@ -1,6 +1,6 @@
 package com.kugmax.learn.r2dbc.endpoint;
 
-import com.kugmax.learn.r2dbc.model.Visitors;
+import com.kugmax.learn.r2dbc.model.Visitor;
 import com.kugmax.learn.r2dbc.service.VisitorService;
 import lombok.AllArgsConstructor;
 import org.lognet.springboot.grpc.GRpcService;
@@ -32,7 +32,7 @@ public class ApiEndpoint extends com.kugmax.learn.rxgrpc.ReactorAPIServiceGrpc.A
         }
     }
 
-    private Mono<com.kugmax.learn.rxgrpc.HelloResponse> toResponse(Mono<Visitors> conversationMono) {
+    private Mono<com.kugmax.learn.rxgrpc.HelloResponse> toResponse(Mono<Visitor> conversationMono) {
         return conversationMono.map(e -> com.kugmax.learn.rxgrpc.HelloResponse.newBuilder().setAnswer(e.getVisitTime().toString()).build());
     }
 }
